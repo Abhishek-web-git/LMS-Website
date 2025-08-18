@@ -48,7 +48,7 @@ function Nav(){
           <div className='w-[30%] lg:flex items-center justify-center gap-4 hidden'>
 
             {!userData && <IoPersonCircle className='w-[50px] -[50px] h-[50px] fill-black cursor-pointer'  onClick={()=>setShow(prev=>!prev)}/>}
-              {/* IoPersonicCircle kuch nahi h bas ye ek icon h jo password ko show or hide karta h  */}
+              IoPersonicCircle kuch nahi h bas ye ek icon h jo password ko show
 
             {userData && <div className='w-[50px] h-[50px] rounded-full text-white flex items-center justify-center text-[20px] border-[2] bg-black border-white cursor-pointer'  onClick={()=>setShow(prev=>!prev)}>
             {userData?.name.slice(0,1).toUpperCase()}
