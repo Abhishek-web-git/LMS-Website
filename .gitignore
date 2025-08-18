@@ -1,0 +1,15 @@
+# Node.js dependencies
+fronted/node_modules/
+backend/node_modules/
+
+# build outputs
+fronted/dist/
+fronted/build/
+backend/target/
+
+# logs
+*.log
+
+# system files
+.DS_Store
+Thumbs.db
