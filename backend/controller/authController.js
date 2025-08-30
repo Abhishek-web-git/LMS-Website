@@ -2,6 +2,7 @@ import validator from "validator"
 import User from "../model/userModel.js"
 import bcrypt from "bcryptjs"
 import genToken from "../config/token.js"
+import sendMail from "../config/sendMail.js"
 
 export const signUp = async(req,res)=>{
   try{
@@ -77,4 +78,74 @@ export const logOut = async (req,res)=>{
 
 
   }
+}
+  
+// OTP Send karne ke liye.......
+
+export const sendOTP = async (req,res) => {
+  try{
+    const {email} = req.body
+    const user = await User.findOne({email})
+    if(!user){
+      return res.status(400).json({message:"User not found"})
+    }
+    const otp = Math.floor(1000 + Math.random()* 9000).toString()
+
+    user.resetOtp = otp,
+    user.otpExpires = Date.now() + 5 * 60 *1000,
+    user.isOtpVerifed = false
+
+    await user.save()
+    await sendMail(email, otp)
+    return res.status(200).json({message:"Otp Send Successfully"})
+
+  }catch (error){
+      console.error("Error sending email:", error);   // 👈 isko zaroor add karo
+    return res.status(500).json({message: `Send Otp error ${error}`})
+
+  }
+}
+
+
+// OTP verify karne ke liye.....
+export const verifyOTP = async (req,res) => {
+  try{
+    const {email,otp} = req.body
+    const user = await User.findOne({email})
+    if(!user || user.resetOtp != otp || user.otpExpires < Date.now() ){
+      return res.status(400).json({message:"Invalid OTP"})
+    }
+    user.isOtpVerifed = true,
+    user.resetOtp = undefined,
+    user.otpExpires = undefined
+
+    await user.save()
+    return res.status(200).json({message:"Otp Verified Successfully"})
+
+  }catch (error){
+     return res.status(500).json({message: `verify Otp error ${error}`})
+
+  }
+}
+
+// Password Reset karne ke liye.....
+export const resetPassword = async (req,res) => {
+  try{
+    const {email, password} = req.body
+    const user = await User.findOne({email})
+    if(!user || !user.isOtpVerifed){
+      return res.status(404).json({message:"OTP verification is required"})
+    }
+    const hashPassword = await bcrypt.hash(password,10)
+    user.password = hashPassword,
+    user.isOtpVerifed = false
+
+    await user.save()
+    return res.status(200).json({message:"Reset Password Successfully"})
+
+  }catch (error){
+    return res.status(500).json({message: `reset password error ${error}`})
+
+  }
+  
 }
