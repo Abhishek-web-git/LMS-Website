@@ -1,33 +1,33 @@
 import mongoose from "mongoose";
 const userSchema = new mongoose.Schema({
   name:{
-    type:String,
-    required:true
+       type:String,
+       required:true
   },
   description:{
-    type:String
+       type:String
 
   },
    email:{
-    type:String,
-    required:true,
-    unique:true
+       type:String,
+       required:true,
+       unique:true
    },
    password:{
-    type:String
+       type:String
    },
    role:{
-    type:String,
-    enum:["student","educator"],
-    required:true
+       type:String,
+       enum:["student","educator"],
+       required:true
    },
    photoUrl:{
-    type:String,
-    default:""
+       type:String,
+       default:""
    },
    enrolledCourses:[{
-    type:mongoose.Schema.Types.ObjectId,
-    ref: "Course"
+       type:mongoose.Schema.Types.ObjectId,
+       ref: "Course"
    }],
 
 

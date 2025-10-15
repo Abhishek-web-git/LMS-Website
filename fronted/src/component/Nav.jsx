@@ -68,7 +68,7 @@ function Nav(){
             </div> }
           </div>
 
-                <GiHamburgerMenu className='w-[35px] h-[35px] lg:hidden text-black cursor-pointer' onClick={() => setShowHam(prev => !prev)} /><div className={`fixed top-0 left-0 w-[100vw] h-[100vh] bg-[#000000d6] flex items-center justify-center flex-col gap-5 z-10 lg:hidden ${showHam ? "translate-x-[0] transition duration-600" : "translate-x-[-100%] transition duration-600"}`}>
+                <GiHamburgerMenu className='w-[35px] h-[35px] lg:hidden text-white cursor-pointer' onClick={() => setShowHam(prev => !prev)} /><div className={`fixed top-0 left-0 w-[100vw] h-[100vh] bg-[#000000d6] flex items-center justify-center flex-col gap-5 z-10 lg:hidden ${showHam ? "translate-x-[0] transition duration-600" : "translate-x-[-100%] transition duration-600"}`}>
 
               {/* is div me maine hambergur lagya h jisse responsive banta h jisse mobile me dekhane pe achcha lagta h  */}
 
