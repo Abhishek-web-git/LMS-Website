@@ -6,10 +6,6 @@ import { BiSupport } from "react-icons/bi";
 import { FaUsers } from "react-icons/fa";
 
 
-
-
-
-
 function Logos() {
   return (
     <div className='w-[100vw] min-h-[90px] flex items-center justify-center flex-wrap gap-4 md:mb-[50px] '>

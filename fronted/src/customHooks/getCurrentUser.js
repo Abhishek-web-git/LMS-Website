@@ -4,7 +4,6 @@ import { setUserData } from "../redux/userSlice";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-
 const getCurrentUser = ()=>{
   const dispatch = useDispatch()
 
@@ -15,7 +14,7 @@ const getCurrentUser = ()=>{
         dispatch(setUserData(result.data))
 
       }catch (error){
-        console.log(error)
+        console.log(error.response?.data || error.message)
         dispatch(setUserData(null))
 
       }

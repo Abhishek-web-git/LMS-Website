@@ -18,6 +18,7 @@ export const signUp = async(req,res)=>{
     if(password.length < 8){
       return res.status(400).json({message:"Enter Strong password"})
     }
+
     let hashPassword = await bcrypt.hash(password,10)
     const user = await User.create({
       name,
@@ -30,11 +31,12 @@ export const signUp = async(req,res)=>{
       httpOnly:true,
       secure:false,
       sameSite: "Strict",
-      maxAge: 7 * 24 * 60 * 1000
+      maxAge: 7 * 24 * 60 * 60 * 1000
     })
     return res.status(201).json(user)
 
   } catch (error){
+    console.log("SignUp error")
     return res.status(500).json({message:`SignUp error ${error}`})
 
   }
@@ -57,12 +59,13 @@ export const login = async (req,res) =>{
       httpOnly:true,
       secure:false,
       sameSite: "Strict",
-      maxAge: 7 * 24 * 60 * 1000
+      maxAge: 7 * 24 * 60 * 60 * 1000
     })
     return res.status(200).json(user)
 
 
   } catch (error){
+    console.log("login error")
      return res.status(500).json({message:`Login error ${error}`})
 
   }
@@ -120,7 +123,7 @@ export const verifyOTP = async (req,res) => {
     user.otpExpires = undefined
 
     await user.save()
-    return res.status(200).json({message:"Otp Verified Successfully"})
+    return res.status(200).json({message:"OTP Verified Successfully"})
 
   }catch (error){
      return res.status(500).json({message: `verify Otp error ${error}`})
@@ -167,11 +170,12 @@ export const googleAuth = async (req, res) => {
       httpOnly:true,
       secure:false,
       sameSite: "Strict",
-      maxAge: 7 * 24 * 60 * 1000
+      maxAge: 7 * 24 * 60 * 60 * 1000
     })
     return res.status(200).json(user)
 
   } catch (error){
+    console.log(error)
       return res.status(500).json({message: `GoogleAuth error ${error}`})
 
 

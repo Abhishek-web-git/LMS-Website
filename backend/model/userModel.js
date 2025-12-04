@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema({
    },
    photoUrl:{
        type:String,
-       default:""
+       default: ""
    },
    enrolledCourses:[{
        type:mongoose.Schema.Types.ObjectId,

@@ -12,28 +12,29 @@ import { useDispatch } from "react-redux";
 import { setUserData } from "../redux/userSlice";
 import { auth, provider } from "../../utils/firebase";
 import { signInWithPopup } from "firebase/auth";
+// import { signInWithPopup, signInWithRedirect } from "firebase/auth";
 
 function Login(){
   const [show, setShow] = useState(false)
   const navigate = useNavigate()
   const dispatch = useDispatch()
-
-    const [email,setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    const [loading,setLoading] = useState(false)
+  const [email,setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [loading,setLoading] = useState(false)
 
     const handleLogin = async ()=>{
-      setLoading(true)
+      setLoading(true);
       try{
-        const result = await axios.post(serverUrl + "/api/auth/login" , {email , password}, {withCreadentials:true})
+        const result = await axios.post(serverUrl + "/api/auth/login" , {email , password}, {withCredentials:true});
         // console.log(result.data)
-        dispatch(setUserData(result.data))
-        setLoading(false)
-        navigate("/")
-        toast.success("Login Successfully")
+        dispatch(setUserData(result.data));
+        // localStorage.setItem("userData", JSON.stringify(result.data));
+        setLoading(false);
+        navigate("/");
+        toast.success("Login Successfully");
 
       }catch (error){
-        console.log(error)
+        console.error(error)
         setLoading(false)
         toast.error(error.response?.data?.message || "Something went wrong")
 
@@ -41,32 +42,34 @@ function Login(){
 
     }
 
+    // 🔹 Google login (redirect method)
     const googleLogin = async () => {
       try{
         const response = await signInWithPopup(auth, provider)
         let user = response.user
         // let name = user.displayName
         let email = user.email
-        let password = user.password
+        // let password = user.password
         let role = ""
 
-        const result = await axios.post(serverUrl + "/api/auth/googleauth", {email, password, role}, {withCredentials:true})
+        const result = await axios.post(serverUrl + "/api/auth/googleauth", {name, email, role}, {withCredentials: true})
         dispatch(setUserData(result.data))
+        
+        // localStorage.setItem("userData", JSON.stringify(result.data));
+
         navigate("/")
         toast.success("Login Successfully")
 
 
       } catch (error){
-        console.log(error)
-        toast.error(error.response.data.message)
+        console.error(error)
+        toast.error("Google login failed")
 
       }
     }
     
-
-
   return (
-  <div className="bg-[#dddbdb] w-[100vw] h-[100vh] flex items-center justify-center">
+  <div className="bg-[#dddbdb] w-[100vw] h-[100vh] flex items-center justify-center flex-col gap-3">
     <form className='w-[90%] md:w-200 h-150 bg-[white] shadow-xl rounded-2xl flex' onSubmit={(e)=>e.preventDefault()}>
 
        {/* left div */}
@@ -74,7 +77,7 @@ function Login(){
       <div className="md:w-[50%] w-[100%] h-[100%] flex flex-col items-center justify-center gap-3">
         <div>
           <h1 className="font-semibold text-[black] text-2xl">Welcome back</h1>
-          <h2 className="text-[#999797] text-[18px]">Login your account</h2>
+          <h2 className="text-[#999797] text-[18px]">Login to your account</h2>
         </div>
 
         {/* <div className="flex flex-col gap-1 w-[80%] items-start justify-center px-3">
@@ -124,11 +127,9 @@ function Login(){
         </div>
 
          <div className="text-[#6f6f6f] cursor-pointer" >Create new account
-          <span className="underline underline-offset-1 text-[black]" onClick={()=>navigate("/signup")}>SignUp</span>
+          <span className="underline underline-offset-1 text-[black]" onClick={()=>navigate("/signup")}>Sign Up</span>
         </div>
-
       </div>
-
 
       {/* right div */}
 

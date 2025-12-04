@@ -17,33 +17,32 @@ function EditProfile() {
   const [name, setName] = useState(userData.name || "")
   const [description, setDescription] = useState(userData.description || "")
   const [photoUrl, setPhotoUrl] = useState(null)
-  const dispatch = useDispatch()
   const [loading, setLoading] = useState(false)
+  const dispatch = useDispatch()
+
 
   const formData = new FormData()
   formData.append("name",name)
   formData.append("description",description)
   formData.append("photoUrl",photoUrl)
 
-  const handleEditProfile =async () => {
+  const handleEditProfile = async () => {
     setLoading(true)
     try{
       const result = await axios.post(serverUrl + "/api/user/profile", formData, {withCredentials:true})
+      console.log(result.data)
       dispatch(setUserData(result.data))
       setLoading(false)
       navigate("/")
-      toast.success("Profile Updated")
+      toast.success("Profile Updated Successfully")
 
     } catch (error){
       setLoading(false)
       console.log(error)
-      toast.error(error.response.data.message)
+      toast.error("Profile Update Error")
 
     }
   }
-
-
-
 
   return (
     <div className='min-h-screen flex items-center justify-center bg-gray-100 px-4 py-10'>
@@ -52,7 +51,7 @@ function EditProfile() {
 
           <h2 className='text-2xl font-bold text-center text-gray-800 mb-6'>Edit Profile</h2>
 
-          <form action="" className='space-y-5' onSubmit={(e)=>e.preventDefault()}>
+          <form className='space-y-5' onSubmit={(e)=>e.preventDefault()}>
           <div className='flex flex-col items-center text-center'>
           {userData?.photoUrl ? <img src={userData?.photoUrl} className='w-24 h-24 rounded-full object-cover border-4 border-[black]' alt="" />:
         <div className='w-24 h-24 rounded-full text-white flex items-center justify-center text-[30px] border-2 bg-black border-white'>
@@ -66,22 +65,28 @@ function EditProfile() {
               name='photoUrl' placeholder='PhotoUrl' 
               accept='image/*' 
               className='w-full px-4 py-2 border rounded-md text-sm'
-              onChange={(e)=>setPhotoUrl(e.target.files[0])}/>
+              onChange={(e) => setPhotoUrl(e.target.files[0])}/>
             </div>
+
+         {/* Name  */}
             <div>
               <label htmlFor="name" className='text-sm font-medium text-gray-700'>UserName</label>
               <input type="text" id='name' 
               placeholder={userData.name} 
-              accept='image/*' 
-              className='w-full px-4 py-2 border rounded-md text-sm'
-              onChange={(e)=>setName(e.target.value)} value={name}/>
+              className='w-full px-4 py-2 border rounded-md border-gray-300 focus:outline-none focus:ring-2 focus:ring-[black] placeholder:text-black'
+              onChange={(e)=>setName(e.target.value)} 
+              value={name}/>
             </div>
+
+            {/* Email (read only) */}
             <div>
               <label className='text-sm font-medium text-gray-700'>Email</label>
-              <input type="text" readOnly
+              <input type="email" readOnly
               placeholder={userData.email} 
-              className='w-full px-4 py-2 border rounded-md text-sm'/>
+              className='w-full px-4 py-2 border rounded-md bg-gray-100 border-gray-300 text-gray-600 placeholder:text-black'/>
             </div>
+
+            {/* Description  */}
             <div>
               <label className='text-sm font-medium text-gray-700'>Bio</label>
               <textarea 
@@ -89,10 +94,14 @@ function EditProfile() {
               placeholder="Tell us about Yourself" 
               rows={3}
               className='w-full mt-1 px-4 py-2 border border-gray-300 rounded-md resize-none focus:ring-2 focus:ring-[black]'
-              onChange={(e)=>setDescription(e.target.value)} value={description}/>
+              onChange={(e)=>setDescription(e.target.value)} 
+              value={description}/>
             </div>
 
-            <button className='w-full bg-[black] active:bg-[#454545] text-white py-2 rounded-md font-medium transition cursor-pointer' disabled={loading} onClick={handleEditProfile}>{loading?<ClipLoader size={30} color='white'/>:"Save Changes"}</button>
+            {/* Save Button */}
+            <button 
+            type="submit"
+            className='w-full bg-[black] active:bg-[#454545] text-white py-2 rounded-md font-medium transition cursor-pointer' disabled={loading} onClick={handleEditProfile}>{loading ? <ClipLoader size={30} color='white'/> : "Save Changes"}</button>
             
 
           </form>

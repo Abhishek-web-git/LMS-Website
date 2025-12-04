@@ -5,6 +5,7 @@ import ai from "../assets/ai.png"
 import ai1 from "../assets/SearchAi.png"
 import { IoPlayCircle } from "react-icons/io5";
 import Logos from "../component/Logos";
+import ExploreCourses from "../component/ExploreCourses";
 
 
 function Home(){
@@ -28,6 +29,7 @@ function Home(){
 
       </div>
       <Logos/>
+      <ExploreCourses/>
 
 
     </div>
