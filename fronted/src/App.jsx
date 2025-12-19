@@ -16,10 +16,18 @@ import EditProfile from "./pages/EditProfile";
 import Dashboard from "./pages/Educator/Dashboard";
 import Courses from "./pages/Educator/Courses";
 import CreateCourses from "./pages/Educator/CreateCourses";
+import getCreatorCourse from "./customHooks/getCreatorCourse";
+import EditCourse from "./pages/Educator/EditCourse";
+import getPublishedCourse from "./customHooks/getPublishedCourse";
+
 
 
 function App(){
   getCurrentUser()
+  getCreatorCourse()
+  getPublishedCourse()
+
+  
   const {userData} = useSelector(state=>state.user)
   
   return(
@@ -36,12 +44,8 @@ function App(){
       <Route path='/dashboard' element={userData?.role === "educator" ? <Dashboard/> : <Navigate to={"/signup"}/>}/>
       <Route path='/courses' element={userData?.role === "educator" ? <Courses/> : <Navigate to={"/signup"}/>}/> 
       <Route path='/createcourse' element={userData?.role === "educator" ? <CreateCourses/> : <Navigate to={"/signup"}/>}/> 
+      <Route path='/editcourse/:courseId' element={userData?.role === "educator" ? <EditCourse/> : <Navigate to={"/signup"}/>}/> 
  
-
-      
-
-
-
     </Routes>
     </>
 
