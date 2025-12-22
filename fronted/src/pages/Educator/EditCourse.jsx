@@ -7,6 +7,8 @@ import axios from 'axios';
 import { serverUrl } from '../../App';
 import { toast } from 'react-toastify';
 import { ClipLoader } from 'react-spinners';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCourseData } from '../../redux/courseSlice';
 
 
 function EditCourses() {
@@ -25,6 +27,8 @@ const [frontendImage, setFrontendImage] = useState(img)
 const [backendImage, setBackendImage] = useState(null)
 const [loading, setLoading] = useState(false)
 const [loading1, setLoading1] = useState(false)
+const dispatch = useDispatch()
+const {courseData} = useSelector(state=>state.course)
 
 
 const handleThumnail = (e) =>{
@@ -83,6 +87,21 @@ const handleEditCourse = async () => {
     console.log(result.data)
     toast.success("Course Updated")
     navigate("/courses")
+
+    const updateData = result.data
+    if(updateData.isPublished){
+      const updateCourses = courseData.map(c=> c._id === courseId ? updateData : c)
+
+      if(!courseData.some(c=> c._id === courseId))
+      {
+        updateCourses.push(updateData)
+      }
+      dispatch(setCourseData(updateCourses))
+    }
+    else{
+     const filterCourses = courseData.filter(c=> c._id !== courseId) 
+     dispatch(setCourseData(filterCourses))
+    }
     
   } catch (error) {
     setLoading(false)
@@ -99,6 +118,8 @@ const handleRemoveCourse = async () => {
     setLoading1(false)
     toast.success("Course Removed")
     navigate("/courses")
+    const filterCourses = courseData.filter(c=>c._id !== courseId)
+    dispatch(setCourseData(filterCourses))
 
     
   } catch (error) {

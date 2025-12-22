@@ -12,9 +12,9 @@ function Card({thumbnail, title, category, price, id}) {
 
         <span className='px-2 py-0.5 bg-gray-100 rounded-full text-gray-700 capitalize'>{category}</span>
 
-        <div className='flex justify-between text-sm text-gray-500  rounded-full hover:bg-black'>
-          <span className='w-full h-[24px] rounded-full cursor-pointer'>{price}</span>
-          <span className='w-[22px] h-[22px] text-sm bg-white'><IoIosStar  className='bg-yellow-500'/>5</span>
+        <div className='flex justify-between text-sm text-gray-600 mt-3 px-[10px] '>
+          <span className='font-semibold text-gray-800'>{price}</span>
+          <span className='flex items-center gap-1'><IoIosStar  className='text-yellow-500'/>5</span>
         </div>
 
       </div>

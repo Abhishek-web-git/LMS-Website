@@ -8,14 +8,12 @@ import { SiCyberdefenders } from "react-icons/si";
 import { FaHackerrank } from "react-icons/fa6";
 import { SiHiveBlockchain } from "react-icons/si";
 import { FaUikit } from "react-icons/fa6";
-
-
-
-
-
+import { useNavigate } from 'react-router-dom';
 
 
 function ExploreCourses() {
+
+  const navigate = useNavigate()
   return (
     <div className='w-[100vw] min-h-[50vh] lg:h-[50vh] flex flex-col lg:flex-row items-center justify-center gap-4 px-[30px]'>
 
@@ -26,7 +24,7 @@ function ExploreCourses() {
         <span className='text-[35px] font-semibold'>Our Courses</span>
         <p className='text-[17px]'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui labore quos aut quam ducimus maiores omnis alias totam, consequatur blanditiis adipisci cupiditate explicabo voluptatum!</p>
 
-        <button className='px-[20px] py-[10px] border-2 bg-[black] border-white text-white rounded-[10px] text-[18px] font-light flex gap-2 mt-[40px] cursor-pointer'>Explore Courses <IoPlayCircle className="w-[30px] h-[30px] fill-white"/>
+        <button className='px-[20px] py-[10px] border-2 bg-[black] border-white text-white rounded-[10px] text-[18px] font-light flex gap-2 mt-[40px] cursor-pointer' onClick={()=>navigate("/allcourses")}>Explore Courses <IoPlayCircle className="w-[30px] h-[30px] fill-white"/>
         </button>
 
       </div>
